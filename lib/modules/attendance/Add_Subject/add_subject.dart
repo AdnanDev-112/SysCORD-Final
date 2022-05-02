@@ -94,13 +94,13 @@ class _AddSubjectState extends State<AddSubject> {
     Future addStudentClass(
         List classRange, String className, List subjectList) async {
       final dbDoc = FirebaseFirestore.instance
+          .collection('Users')
+          .doc('devices')
           .collection(andId!)
           .doc('data')
           .collection('class_constants')
           .doc(className);
 
-      // Class Initialized
-      // final classDoc = AttendanceDoc(id: dbDoc.id, classRange: classRange, className: className);
       final classDoc = AttendanceModel(
           classRange: classRange,
           className: className,
@@ -108,9 +108,28 @@ class _AddSubjectState extends State<AddSubject> {
 
       final json = classDoc.toJson();
       await dbDoc.set(json);
-    }
+      // // Second Part to Add in Class Constants
+      // final classConst = FirebaseFirestore.instance
+      //     .collection('all_class_constants')
+      //     .doc(className);
 
-    // Temp func to add SubList
+      // final classconstDoc = AttendanceModel(
+      //     classRange: classRange,
+      //     className: className,
+      //     subjectList: _subjectList);
+
+      // final dataSet = classDoc.toJson();
+
+      // CollectionReference checkClassConstant =
+      //     FirebaseFirestore.instance.collection('all_class_constants');
+      // var checkStatus =
+      //     await checkClassConstant.get().then((value) => value.docs.isEmpty);
+      // if (checkStatus) {
+      //   await classConst.set(dataSet, SetOptions(merge: true));
+      // } else {
+      //   await classConst.set(dataSet, SetOptions(mergeFields: ['subjectList']));
+      // }
+    }
 
     return Scaffold(
       appBar: AppBar(

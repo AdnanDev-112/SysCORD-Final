@@ -1,22 +1,23 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sysbin/modules/attendance/Monthly_List/month_detail_page.dart';
 
-class MonthHome extends StatefulWidget {
+class TotalPage extends StatefulWidget {
   final String andId;
-  const MonthHome({Key? key, required this.andId}) : super(key: key);
+  const TotalPage({Key? key, required this.andId}) : super(key: key);
 
   @override
-  State<MonthHome> createState() => _MonthHomeState();
+  State<TotalPage> createState() => _TotalPageState();
 }
 
-class _MonthHomeState extends State<MonthHome> {
+class _TotalPageState extends State<TotalPage> {
+  final attendanceRef =
+      FirebaseFirestore.instance.collection('all_attendance_constants');
   late String andId = widget.andId;
 
-  String? selectedItem;
   // Subject List Here
-  late List _subjectList = [];
-  String? selectedSubject;
+  String? selectedClass;
   String? totalStudents;
 
   // Date Fixer
@@ -40,16 +41,52 @@ class _MonthHomeState extends State<MonthHome> {
   int? _selectedMonthInt;
   int? _selectedYearInt;
 
+  // Function to Build The Grid View based on all the Calcs
+  Widget getAllData(var recievedData) {
+    if (selectedClass != null) {
+      getAllDocs() async {
+        var teT = FirebaseFirestore.instance
+            .collection('all_attendance_constants')
+            .where('subjectClass', isEqualTo: selectedClass)
+            .get()
+            .then((value) => value);
+
+        return teT;
+      }
+
+      return Container(
+        child: Text('Hi'),
+      );
+
+      return Expanded(
+        child: GridView.builder(
+            itemCount: 5,
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (context, index) {
+              return Container(
+                  child: Center(
+                child: Text(index.toString()),
+              ));
+            }),
+      );
+    } else {
+      return Text('Select Class');
+      // Show Error to Select the Class
+    }
+  }
+
   @override
-  Widget build(BuildContext maincontext) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            const Expanded(child: Text('View Attendance')),
+            const Expanded(child: Text('Total Attendance')),
             InkWell(
               onTap: () {
                 setState(() {
+                  selectedClass = null;
                   _selectedMonth = null;
                   _selectedYear = null;
                   _selectedMonthInt = null;
@@ -69,27 +106,27 @@ class _MonthHomeState extends State<MonthHome> {
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('Users')
-              .doc('devices')
-              .collection(andId)
-              .doc('data')
-              .collection('class_constants')
+              .collection('all_attendance_constants')
               .snapshots(),
           builder: (context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               if (snapshot.data!.docs.isNotEmpty) {
+                var insideData = snapshot.data!.docs;
+                // print(snapshot.data!.docs.length);
                 classNameList() {
                   List<String> temp = [];
-                  for (var i = 0; i < snapshot.data!.docs.length; i++) {
-                    temp.add(snapshot.data!.docs.elementAt(i).get('className'));
+
+                  for (var doc in snapshot.data!.docs) {
+                    temp.add(doc['subjectClass']);
                   }
+                  var tT = temp.toSet().toList();
+                  temp = tT;
                   return temp;
                 }
 
                 List<String> classNames = classNameList();
                 return Column(
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       children: [
@@ -105,42 +142,14 @@ class _MonthHomeState extends State<MonthHome> {
                             isExpanded: true,
                             onChanged: (value) async {
                               setState(() {
-                                selectedItem = value;
+                                selectedClass = value;
                               });
-                              List<dynamic> fetchedSubjects =
-                                  await FirebaseFirestore.instance
-                                      .collection('Users')
-                                      .doc('devices')
-                                      .collection(andId)
-                                      .doc('data')
-                                      .collection('class_constants')
-                                      .where('className',
-                                          isEqualTo: selectedItem)
-                                      .get()
-                                      .then((value) => value.docs
-                                          .elementAt(0)
-                                          .get('subjectList'));
-                              List<dynamic> fetchedStudentNumber =
-                                  await FirebaseFirestore.instance
-                                      .collection('Users')
-                                      .doc('devices')
-                                      .collection(andId)
-                                      .doc('data')
-                                      .collection('class_constants')
-                                      .where('className',
-                                          isEqualTo: selectedItem)
-                                      .get()
-                                      .then((value) => value.docs
-                                          .elementAt(0)
-                                          .get('classRange'));
-                              setState(() {
-                                _subjectList = fetchedSubjects;
-                                selectedSubject = null;
-                                totalStudents =
-                                    fetchedStudentNumber.length.toString();
-                              });
+
+                              // setState(() {
+                              //   selectedClass = null;
+                              // });
                             },
-                            value: selectedItem,
+                            value: selectedClass,
                             items:
                                 // item1s
                                 classNames
@@ -152,45 +161,6 @@ class _MonthHomeState extends State<MonthHome> {
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        const Expanded(
-                            child: Text(
-                          'Select Subject',
-                          style: TextStyle(fontSize: 22),
-                        )),
-                        Expanded(
-                          child: DropdownButton<String>(
-                            iconSize: 32,
-                            isExpanded: true,
-                            onChanged: (value) async {
-                              setState(() {
-                                selectedSubject = value;
-                              });
-                            },
-                            value: selectedSubject,
-                            items: _subjectList
-                                .map((item) => DropdownMenuItem(
-                                      child: Text(item.toString()),
-                                      value: item.toString(),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      totalStudents == null
-                          ? 'Total Students : '
-                          : 'Total Students : $totalStudents',
-                      style: const TextStyle(fontSize: 20),
                     ),
                     const SizedBox(
                       height: 15,
@@ -242,29 +212,22 @@ class _MonthHomeState extends State<MonthHome> {
                     const SizedBox(
                       height: 15,
                     ),
+                    // getAllData(insideData),
                     StreamBuilder(
-                        stream: selectedSubject == null
+                        stream: selectedClass != null
                             ? FirebaseFirestore.instance
-                                .collection('garbage')
+                                .collection('all_attendance_constants')
+                                .where('subjectClass', isEqualTo: selectedClass)
                                 .snapshots()
                             : FirebaseFirestore.instance
-                                .collection('Users')
-                                .doc('devices')
-                                .collection(andId)
-                                .doc('data')
-                                .collection('Attendance')
-                                .doc(selectedItem)
-                                .collection(selectedSubject!)
+                                .collection('Garbage')
                                 .snapshots(),
                         builder: (context,
                             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
                                 snapshot) {
                           if (snapshot.hasData && snapshot.data != null) {
                             if (snapshot.data!.docs.isNotEmpty) {
-                              List classRange =
-                                  snapshot.data!.docs[0].data()['classNumbers'];
-                              int rangeLength = classRange.length;
-
+                              // print(snapshot.data!.docs.length);
                               List<Map<String, dynamic>> mP = [];
                               List<Map<String, dynamic>> sT = [];
                               for (int i = 0;
@@ -287,6 +250,27 @@ class _MonthHomeState extends State<MonthHome> {
                               } else {
                                 mP = sT;
                               }
+                              print("MPLength Below ");
+                              print(mP.length);
+
+                              subjectNameList() {
+                                List<String> temp = [];
+
+                                for (var doc in mP) {
+                                  temp.add(doc['subjectName']);
+                                }
+                                var tT = temp.toSet().toList();
+                                temp = tT;
+                                return temp;
+                              }
+
+                              List<String> subjectList = subjectNameList();
+                              print(subjectList);
+                              for (int i = 0; i < subjectList.length; i++) {
+                                for (var doc in mP) {
+                                  if (doc['subjectName'] == subjectList[i]) {}
+                                }
+                              }
                               Map<String, dynamic> getIndividual(int ind) {
                                 int totalDaysPresent = 0;
                                 int totalDaysAbsent = 0;
@@ -300,50 +284,16 @@ class _MonthHomeState extends State<MonthHome> {
                                 Map<String, dynamic> toJson = {
                                   'totalPresent': totalDaysPresent,
                                   'totalAbsent': totalDaysAbsent,
-                                  'rollNo': classRange[ind],
+                                  // 'rollNo': classRange[ind],
                                   'totalClassesTaken': mP.length
                                 };
                                 return toJson;
                               }
 
-                              return Expanded(
-                                child: ListView.separated(
-                                  separatorBuilder: (__, int inde) =>
-                                      const SizedBox(
-                                    height: 8,
-                                  ),
-                                  shrinkWrap: true,
-                                  itemCount: rangeLength,
-                                  itemBuilder: (__, int index) {
-                                    Map<String, dynamic> mainDoc =
-                                        getIndividual(index);
-                                    print(mainDoc);
-
-                                    return ListTile(
-                                      leading: const Icon(
-                                          Icons.format_list_numbered_outlined),
-                                      title: Text(
-                                        'Roll No ${classRange[index]}',
-                                        style: const TextStyle(
-                                          fontSize: 18.5,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MonthDetailPage(
-                                                      recievedData: mainDoc,
-                                                    )));
-                                      },
-                                    );
-                                  },
-                                ),
-                              );
+                              return Text('Hola');
                             } else {
                               return const Center(
-                                child: Text('No Attendance to Display'),
+                                child: Text('No Data to Display'),
                               );
                             }
                           } else {
@@ -352,11 +302,13 @@ class _MonthHomeState extends State<MonthHome> {
                             );
                           }
                         })
+
+                    // ********************************************
                   ],
                 );
               } else {
                 return const Center(
-                  child: Text('No Subjects to Display'),
+                  child: Text('No Data to Display'),
                 );
               }
             } else {

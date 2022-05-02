@@ -81,6 +81,8 @@ class _ViewHomeState extends State<ViewHome> {
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
+              .collection('Users')
+              .doc('devices')
               .collection(andId)
               .doc('data')
               .collection('class_constants')
@@ -119,6 +121,8 @@ class _ViewHomeState extends State<ViewHome> {
                               });
                               List<dynamic> fetchedSubjects =
                                   await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc('devices')
                                       .collection(andId)
                                       .doc('data')
                                       .collection('class_constants')
@@ -130,6 +134,8 @@ class _ViewHomeState extends State<ViewHome> {
                                           .get('subjectList'));
                               List<dynamic> fetchedStudentNumber =
                                   await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc('devices')
                                       .collection(andId)
                                       .doc('data')
                                       .collection('class_constants')
@@ -254,6 +260,8 @@ class _ViewHomeState extends State<ViewHome> {
                                 .collection('garbage')
                                 .snapshots()
                             : FirebaseFirestore.instance
+                                .collection('Users')
+                                .doc('devices')
                                 .collection(andId)
                                 .doc('data')
                                 .collection('Attendance')

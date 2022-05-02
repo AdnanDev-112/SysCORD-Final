@@ -91,11 +91,11 @@ class MonthDetailPage extends StatelessWidget {
             children: [
               Text(
                 'Days Present : ${recievedData['totalPresent'].toString()}',
-                style: TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25),
               ),
               Text(
                 'Days Absent : ${recievedData['totalAbsent'].toString()}',
-                style: TextStyle(fontSize: 25),
+                style: const TextStyle(fontSize: 25),
               ),
             ],
           )

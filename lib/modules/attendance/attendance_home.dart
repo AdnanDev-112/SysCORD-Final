@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sysbin/modules/attendance/Add_Subject/add_subject.dart';
 import 'package:sysbin/modules/attendance/Take_Attendance/take_attendance.dart';
+import 'package:sysbin/modules/attendance/Total_all_subjects/total_page.dart';
 import 'package:sysbin/modules/attendance/View_List/view_home.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
@@ -45,7 +46,7 @@ class AttendanceHome extends StatelessWidget {
                       size: 70,
                     ),
                     Text(
-                      'Add Subject',
+                      'Add Subjects',
                       style: TextStyle(fontSize: 20),
                     )
                   ],
@@ -127,6 +128,33 @@ class AttendanceHome extends StatelessWidget {
                     ),
                     Text(
                       'Month',
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TotalPage(andId: andId!)));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.blue,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.description,
+                      size: 70,
+                    ),
+                    Text(
+                      'Total',
                       style: TextStyle(fontSize: 20),
                     )
                   ],

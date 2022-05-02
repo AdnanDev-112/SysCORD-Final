@@ -36,8 +36,13 @@ dependencies:
   unique_identifier: ^0.2.2
   firebase_core: ^1.13.1
   cloud_firestore: ^3.1.10
+  flutter_slidable: ^1.2.0
   fluttertoast:
     8.0.8
+    # Mahale Test
+  syncfusion_flutter_xlsio: ^20.1.51-beta
+  open_file:
+    ^3.2.1
 
     # Utility For Parsing Date
   intl:

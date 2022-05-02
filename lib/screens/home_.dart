@@ -14,7 +14,7 @@ enum DrawerSections { dashboard, activity, attendance, inventory }
 
 class _HomeState extends State<Home> {
   var currentPage = DrawerSections.dashboard;
-  String appBarText = 'SysBIN';
+  String appBarText = 'SysCORD';
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     } else if (currentPage == DrawerSections.attendance) {
       container = AttendanceHome();
     } else if (currentPage == DrawerSections.inventory) {
-      container = InventoryHome();
+      container = InvHomePage();
     }
     Widget menuItem(int id, String title, IconData icon, bool selected) {
       return Material(
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
             setState(() {
               if (id == 1) {
                 currentPage = DrawerSections.dashboard;
-                appBarText = 'SysBIN';
+                appBarText = 'SysCORD';
               } else if (id == 2) {
                 currentPage = DrawerSections.attendance;
                 appBarText = 'Attendance';
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                   height: 100,
                   child: const Center(
                     child: Text(
-                      'SysBIN',
+                      'SysCord ',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                     ),

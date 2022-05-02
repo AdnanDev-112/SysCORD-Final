@@ -24,7 +24,7 @@ class DetailPage extends StatelessWidget {
       if (await Permission.storage.request().isGranted) {
 //store file in documents folder
         try {
-          String tmp = await Directory('/storage/emulated/0/SysBIN/downloaded')
+          String tmp = await Directory('/storage/emulated/0/SysCORD/downloaded')
               .create(recursive: true)
               .then((Directory drct) => drct.path);
           String dir = tmp + "/$subjectName$takenDate$timeTaken.csv";

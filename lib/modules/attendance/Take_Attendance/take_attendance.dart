@@ -47,6 +47,8 @@ class _TakeAttendanceState extends State<TakeAttendance> {
     Future saveAttendance(List classRange, String className, List colorSt,
         String selectSub) async {
       final dbDoc = FirebaseFirestore.instance
+          .collection('Users')
+          .doc('devices')
           .collection(andId)
           .doc('data')
           .collection('Attendance')
@@ -58,6 +60,7 @@ class _TakeAttendanceState extends State<TakeAttendance> {
       final classDoc = SavedAttendance(
         classNumbers: classRange,
         subjectName: selectedSubject,
+        subjectClass: selectedItem,
         colorState: colorState,
         timeTaken: formattedTime,
         takenDate: formattedDate,
@@ -68,6 +71,38 @@ class _TakeAttendanceState extends State<TakeAttendance> {
 
       final json = classDoc.toJson();
       await dbDoc.set(json);
+
+// *********************************************************************************
+      // Adding into all_attendance_constant
+      final classConst = FirebaseFirestore.instance
+          .collection('all_attendance_constants')
+          // .doc(className)
+          // .collection(selectSub)
+          .doc('$formattedDate $formattedTime ${getRandomString(2)}');
+      // CollectionReference checkClassConstant =
+      //     FirebaseFirestore.instance.collection('all_attendance_constants');
+      // var checkStatus = await checkClassConstant.get().then((snapshot) {
+      //   bool found = false;
+      //   for (var doc in snapshot.docs) {
+      //     if (doc.id == selectedItem) {
+      //       found = true;
+      //     }
+      //   }
+      //   return found;
+      // });
+      // if (!checkStatus) {
+      //   await FirebaseFirestore.instance
+      //       .collection('all_attendance_constants')
+      //       .doc(className)
+      //       .set({'hola': 'Hey'});
+      //   await classConst.set(json);
+      //   await FirebaseFirestore.instance
+      //       .collection('all_attendance_constants')
+      //       .doc(className)
+      //       .update({'hola': FieldValue.delete()});
+      // } else {
+      await classConst.set(json);
+      // }
     }
 
     return Scaffold(
@@ -76,40 +111,43 @@ class _TakeAttendanceState extends State<TakeAttendance> {
           children: [
             const Expanded(child: Text('Today Attendance')),
             TextButton(
-                style: TextButton.styleFrom(backgroundColor: Colors.green[900]),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const Text('Confirm'),
-                            content:
-                                const Text('Are you sure you want to save? '),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Cancel')),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    saveAttendance(classRange, selectedItem!,
-                                        colorState, selectedSubject!);
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Confirm'))
-                            ],
-                          ));
-                },
-                child: const Text(
-                  'Save',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ))
+              style: TextButton.styleFrom(backgroundColor: Colors.green[900]),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: const Text('Confirm'),
+                          content:
+                              const Text('Are you sure you want to save? '),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Cancel')),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  saveAttendance(classRange, selectedItem!,
+                                      colorState, selectedSubject!);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Confirm'))
+                          ],
+                        ));
+              },
+              child: const Text(
+                'Save',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            )
           ],
         ),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
+              .collection('Users')
+              .doc('devices')
               .collection(andId)
               .doc('data')
               .collection('class_constants')
@@ -146,6 +184,8 @@ class _TakeAttendanceState extends State<TakeAttendance> {
                               });
                               List<dynamic> fetchedData =
                                   await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc('devices')
                                       .collection(andId)
                                       .doc('data')
                                       .collection('class_constants')
@@ -157,6 +197,8 @@ class _TakeAttendanceState extends State<TakeAttendance> {
                                           .get('classRange'));
                               List<dynamic> fetchedSubjects =
                                   await FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc('devices')
                                       .collection(andId)
                                       .doc('data')
                                       .collection('class_constants')

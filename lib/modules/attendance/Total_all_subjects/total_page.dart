@@ -269,16 +269,16 @@ class _TotalPageState extends State<TotalPage> {
 
                                   for (int i = 1; i < indiData.length; i++) {
                                     var tempArray1 = [];
-                                    // if (i != indiData.length - 1) {
+
                                     indiData[i].forEach((key, value) {
                                       tempArray1.add(value);
                                     });
-                                    // }
 
                                     for (int i = 0; i < tempArray.length; i++) {
                                       tempArray[i] += tempArray1[i];
                                     }
                                   }
+                                  print(tempArray);
                                 }
                                 print(indiData);
                               }
@@ -291,18 +291,18 @@ class _TotalPageState extends State<TotalPage> {
                                     onPressed: () {
                                       createTotalExcel();
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Get Sheet',
                                       style: TextStyle(color: Colors.black),
                                     ));
                               } else {
-                                return Center(
+                                return const Center(
                                   child: Text('Select Month and Year'),
                                 );
                               }
                             } else {
                               return const Center(
-                                child: Text('No Data to Display'),
+                                child: Text('Select Class '),
                               );
                             }
                           } else {

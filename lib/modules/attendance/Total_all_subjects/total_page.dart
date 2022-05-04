@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sysbin/modules/attendance/Total_all_subjects/excSheet.dart';
 
 class TotalPage extends StatefulWidget {
   final String andId;
@@ -40,41 +39,6 @@ class _TotalPageState extends State<TotalPage> {
   String? _selectedYear;
   int? _selectedMonthInt;
   int? _selectedYearInt;
-
-  // Function to Build The Grid View based on all the Calcs
-  Widget getAllData(var recievedData) {
-    if (selectedClass != null) {
-      getAllDocs() async {
-        var teT = FirebaseFirestore.instance
-            .collection('all_attendance_constants')
-            .where('subjectClass', isEqualTo: selectedClass)
-            .get()
-            .then((value) => value);
-
-        return teT;
-      }
-
-      return Container(
-        child: Text('Hi'),
-      );
-
-      return Expanded(
-        child: GridView.builder(
-            itemCount: 5,
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              return Container(
-                  child: Center(
-                child: Text(index.toString()),
-              ));
-            }),
-      );
-    } else {
-      return Text('Select Class');
-      // Show Error to Select the Class
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +191,6 @@ class _TotalPageState extends State<TotalPage> {
                                 snapshot) {
                           if (snapshot.hasData && snapshot.data != null) {
                             if (snapshot.data!.docs.isNotEmpty) {
-                              // print(snapshot.data!.docs.length);
                               List<Map<String, dynamic>> mP = [];
                               List<Map<String, dynamic>> sT = [];
                               for (int i = 0;
@@ -250,9 +213,9 @@ class _TotalPageState extends State<TotalPage> {
                               } else {
                                 mP = sT;
                               }
-                              print("MPLength Below ");
-                              print(mP.length);
-
+                              // print("MPLength Below ");
+                              // print(mP.length);
+// Subject List From Set To List so we have all the available Subjects
                               subjectNameList() {
                                 List<String> temp = [];
 
@@ -265,32 +228,78 @@ class _TotalPageState extends State<TotalPage> {
                               }
 
                               List<String> subjectList = subjectNameList();
-                              print(subjectList);
+                              // ******************************
+                              // print(subjectList);
+                              // Individual Subject Data
                               for (int i = 0; i < subjectList.length; i++) {
+                                List<dynamic> individualDoc = [];
                                 for (var doc in mP) {
-                                  if (doc['subjectName'] == subjectList[i]) {}
-                                }
-                              }
-                              Map<String, dynamic> getIndividual(int ind) {
-                                int totalDaysPresent = 0;
-                                int totalDaysAbsent = 0;
-                                for (int i = 0; i < mP.length; i++) {
-                                  if (mP[i]['colorState'][ind]) {
-                                    totalDaysPresent++;
-                                  } else {
-                                    totalDaysAbsent++;
+                                  if (doc['subjectName'] == subjectList[i]) {
+                                    individualDoc.add(doc);
                                   }
                                 }
-                                Map<String, dynamic> toJson = {
-                                  'totalPresent': totalDaysPresent,
-                                  'totalAbsent': totalDaysAbsent,
-                                  // 'rollNo': classRange[ind],
-                                  'totalClassesTaken': mP.length
-                                };
-                                return toJson;
+                                List<Map<String, dynamic>> indiData = [];
+                                for (int i = 0; i < individualDoc.length; i++) {
+                                  Map<String, dynamic> docDataMap = Map();
+                                  var classLength =
+                                      individualDoc[0]['classNumbers'].length;
+
+                                  for (int j = 0; j < classLength; j++) {
+                                    if (individualDoc[i]['colorState'][j]) {
+                                      docDataMap[individualDoc[i]
+                                              ['classNumbers'][j]
+                                          .toString()] = 1;
+
+                                      // totalDaysPresent++;
+                                    } else {
+                                      // totalDaysAbsent++;
+                                      docDataMap[individualDoc[i]
+                                              ['classNumbers'][j]
+                                          .toString()] = 0;
+                                    }
+                                  }
+                                  // print(docDataMap);
+                                  indiData.add(docDataMap);
+                                }
+                                if (indiData.length > 1) {
+                                  var tempArray = [];
+                                  indiData[0].forEach((key, value) {
+                                    tempArray.add(value);
+                                  });
+
+                                  for (int i = 1; i < indiData.length; i++) {
+                                    var tempArray1 = [];
+                                    // if (i != indiData.length - 1) {
+                                    indiData[i].forEach((key, value) {
+                                      tempArray1.add(value);
+                                    });
+                                    // }
+
+                                    for (int i = 0; i < tempArray.length; i++) {
+                                      tempArray[i] += tempArray1[i];
+                                    }
+                                  }
+                                }
+                                print(indiData);
                               }
 
-                              return Text('Hola');
+                              if (_selectedMonth != null &&
+                                  _selectedYear != null) {
+                                return ElevatedButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.yellow),
+                                    onPressed: () {
+                                      createTotalExcel();
+                                    },
+                                    child: Text(
+                                      'Get Sheet',
+                                      style: TextStyle(color: Colors.black),
+                                    ));
+                              } else {
+                                return Center(
+                                  child: Text('Select Month and Year'),
+                                );
+                              }
                             } else {
                               return const Center(
                                 child: Text('No Data to Display'),

@@ -230,17 +230,22 @@ class _TotalPageState extends State<TotalPage> {
                               List<String> subjectList = subjectNameList();
                               // ******************************
                               // print(subjectList);
+                              // Total List to Be Sent
+                              List<dynamic> subjectsTotal = [];
                               // Individual Subject Data
-                              for (int i = 0; i < subjectList.length; i++) {
+                              for (int k = 0; k < subjectList.length; k++) {
                                 List<dynamic> individualDoc = [];
                                 for (var doc in mP) {
-                                  if (doc['subjectName'] == subjectList[i]) {
+                                  if (doc['subjectName'] == subjectList[k]) {
                                     individualDoc.add(doc);
                                   }
                                 }
+                                var classNumbers =
+                                    individualDoc[0]['classNumbers'];
                                 List<Map<String, dynamic>> indiData = [];
                                 for (int i = 0; i < individualDoc.length; i++) {
                                   Map<String, dynamic> docDataMap = Map();
+                                  // docDataMap['className'] = subjectList[k];
                                   var classLength =
                                       individualDoc[0]['classNumbers'].length;
 
@@ -278,10 +283,24 @@ class _TotalPageState extends State<TotalPage> {
                                       tempArray[i] += tempArray1[i];
                                     }
                                   }
-                                  print(tempArray);
+                                  // print(tempArray);
+                                  Map<String, dynamic> newTempArr = Map();
+                                  for (int j = 0;
+                                      j < classNumbers.length;
+                                      j++) {
+                                    newTempArr[classNumbers[j].toString()] =
+                                        tempArray[j];
+                                  }
+                                  indiData.clear();
+                                  indiData.add(newTempArr);
+                                  indiData[0]['className'] = subjectList[k];
+                                } else {
+                                  indiData[0]['className'] = subjectList[k];
                                 }
-                                print(indiData);
+                                // print(indiData);
+                                subjectsTotal.add(indiData[0]);
                               }
+                              print(subjectsTotal);
 
                               if (_selectedMonth != null &&
                                   _selectedYear != null) {

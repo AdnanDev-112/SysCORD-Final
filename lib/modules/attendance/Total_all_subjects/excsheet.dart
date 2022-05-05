@@ -83,6 +83,11 @@ Future<void> createTotalExcel(var dataRecieved) async {
           .getRangeByName(letter3 + rowNumber)
           .setFormula('=$letter1$rowNumber/$letter2$rowNumber * 100');
 
+      if (j + 1 == classNumbers.length) {
+        sheet.getRangeByName(letter3 + ((4 + j) + 1).toString()).setFormula(
+            '=((SUM(${letter3 + (4).toString()}:D8)/${classNumbers.length}))');
+      }
+
       // Formating
       final ConditionalFormats conditions =
           sheet.getRangeByName(letter3 + rowNumber).conditionalFormats;

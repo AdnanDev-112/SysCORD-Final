@@ -82,6 +82,26 @@ Future<void> createTotalExcel(var dataRecieved) async {
       sheet
           .getRangeByName(letter3 + rowNumber)
           .setFormula('=$letter1$rowNumber/$letter2$rowNumber * 100');
+
+      // Formating
+      final ConditionalFormats conditions =
+          sheet.getRangeByName(letter3 + rowNumber).conditionalFormats;
+      final ConditionalFormat condition = conditions.addCondition();
+      final ConditionalFormat condition1 = conditions.addCondition();
+      //Represents conditional format rule that the value in target range should be between 10 and 20
+      condition.formatType = ExcelCFType.cellValue;
+      condition.operator = ExcelComparisonOperator.between;
+      condition.firstFormula = '70';
+      condition.secondFormula = '100';
+      //set back color by hexa decimal.
+      condition.backColor = '#30b398';
+      // ***************
+      condition1.formatType = ExcelCFType.cellValue;
+      condition1.operator = ExcelComparisonOperator.less;
+      condition1.firstFormula = '70';
+      // condition.secondFormula = '100';
+      //set back color by hexa decimal.
+      condition1.backColor = '#c95349';
     }
   }
 

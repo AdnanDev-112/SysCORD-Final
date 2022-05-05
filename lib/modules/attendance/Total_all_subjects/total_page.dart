@@ -232,6 +232,7 @@ class _TotalPageState extends State<TotalPage> {
                               // print(subjectList);
                               // Total List to Be Sent
                               List<dynamic> subjectsTotal = [];
+                              var classNumbers = [];
                               // Individual Subject Data
                               for (int k = 0; k < subjectList.length; k++) {
                                 List<dynamic> individualDoc = [];
@@ -240,8 +241,8 @@ class _TotalPageState extends State<TotalPage> {
                                     individualDoc.add(doc);
                                   }
                                 }
-                                var classNumbers =
-                                    individualDoc[0]['classNumbers'];
+                                var classesConducted = individualDoc.length;
+                                classNumbers = individualDoc[0]['classNumbers'];
                                 List<Map<String, dynamic>> indiData = [];
                                 for (int i = 0; i < individualDoc.length; i++) {
                                   Map<String, dynamic> docDataMap = Map();
@@ -294,21 +295,34 @@ class _TotalPageState extends State<TotalPage> {
                                   indiData.clear();
                                   indiData.add(newTempArr);
                                   indiData[0]['className'] = subjectList[k];
+                                  indiData[0]['classesConducted'] =
+                                      classesConducted;
                                 } else {
                                   indiData[0]['className'] = subjectList[k];
+                                  indiData[0]['classesConducted'] =
+                                      classesConducted;
                                 }
                                 // print(indiData);
                                 subjectsTotal.add(indiData[0]);
                               }
-                              print(subjectsTotal);
+                              // print(subjectsTotal);
 
                               if (_selectedMonth != null &&
                                   _selectedYear != null) {
+                                // Log
+                                var dataToSend = Map();
+                                dataToSend['Month'] = _selectedMonth;
+                                dataToSend['Year'] = _selectedYear;
+                                dataToSend['selectedClass'] = selectedClass;
+                                dataToSend['attendanceData'] = subjectsTotal;
+                                dataToSend['classRange'] = classNumbers;
+
+                                // Button
                                 return ElevatedButton(
                                     style: TextButton.styleFrom(
                                         backgroundColor: Colors.yellow),
                                     onPressed: () {
-                                      createTotalExcel();
+                                      createTotalExcel(dataToSend);
                                     },
                                     child: const Text(
                                       'Get Sheet',

@@ -15,6 +15,7 @@ List<String> alphabetLetters = List<String>.generate(
 );
 
 Future<void> createTotalExcel(var dataRecieved) async {
+  print(dataRecieved);
 // Clean the Data
   var _selectedMonth = dataRecieved['Month'];
   var _selectedYear = dataRecieved['Year'];
@@ -85,7 +86,7 @@ Future<void> createTotalExcel(var dataRecieved) async {
 
       if (j + 1 == classNumbers.length) {
         sheet.getRangeByName(letter3 + ((4 + j) + 1).toString()).setFormula(
-            '=((SUM(${letter3 + (4).toString()}:D8)/${classNumbers.length}))');
+            '=((SUM(${letter3 + (4).toString()}:${letter3}${((4 + j)).toString()})/${classNumbers.length}))');
       }
 
       // Formating

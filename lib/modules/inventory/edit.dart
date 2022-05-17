@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Editpage extends StatefulWidget {
-  Map eD;
+  Map<String, dynamic> eD;
   String dbid;
   Editpage({Key? key, required this.eD, required this.dbid}) : super(key: key);
 

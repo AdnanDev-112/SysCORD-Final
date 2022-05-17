@@ -38,7 +38,7 @@ class _InvHomePageState extends State<InvHomePage> {
     'November',
     'December'
   ];
-  bool isDescending = false;
+  bool isDescending = true;
 
   //DB Function Delete
   Future<void> delete(String id) async {
@@ -112,47 +112,65 @@ class _InvHomePageState extends State<InvHomePage> {
               if (snapshot.data!.docs.isNotEmpty) {
                 List<Map<String, dynamic>> mP = [];
                 List<Map<String, dynamic>> sT = [];
+                List dbID = [];
+                List dbIDT = [];
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
                   mP.add(snapshot.data!.docs[i].data());
                   sT.add(snapshot.data!.docs[i].data());
+                  // For Id's
+                  dbID.add(snapshot.data!.docs[i]);
+                  dbIDT.add(snapshot.data!.docs[i]);
                 }
                 if (_selectedMonthInt != null && _selectedYearInt != null) {
-                  List<Map<String, dynamic>> sT = [];
+                  List<Map<String, dynamic>> sTT = [];
+                  List tempID = [];
                   for (int i = 0; i < mP.length; i++) {
                     if (DateTime.parse(mP[i]['date']).month ==
                             _selectedMonthInt &&
                         DateTime.parse(mP[i]['date']).year.toString() ==
                             _selectedYear) {
-                      sT.add(mP[i]);
+                      sTT.add(mP[i]);
+                      tempID.add(dbID[i]);
                     }
                   }
-                  mP = sT;
+                  mP = sTT;
+                  dbID = tempID;
                 } else if (_selectedYearInt != null) {
-                  List<Map<String, dynamic>> sT = [];
+                  List<Map<String, dynamic>> sTT = [];
+                  List tempID = [];
                   for (int i = 0; i < mP.length; i++) {
                     if (DateTime.parse(mP[i]['date']).year.toString() ==
                         _selectedYear) {
-                      sT.add(mP[i]);
+                      sTT.add(mP[i]);
+                      tempID.add(dbID[i]);
                     }
                   }
-                  mP = sT;
+                  mP = sTT;
+                  dbID = tempID;
                 } else {
                   mP = sT;
+                  dbID = dbIDT;
                 }
 
                 mP.sort((a, b) {
                   var aa = DateTime.parse(a['date']);
                   var bb = DateTime.parse(b['date']);
-                  return isDescending ? aa.compareTo(bb) : bb.compareTo(aa);
+                  return isDescending ? bb.compareTo(aa) : aa.compareTo(bb);
+                });
+                // Ids Sort?
+                dbID.sort((a, b) {
+                  var aa = DateTime.parse(a.data()['date']);
+                  var bb = DateTime.parse(b.data()['date']);
+                  return isDescending ? bb.compareTo(aa) : aa.compareTo(bb);
                 });
 
                 tosendData = mP;
+                // Total
                 int totalAmt = 0;
-                print(mP);
+
                 for (int i = 0; i < mP.length; i++) {
                   totalAmt += (int.parse(mP[i]['amount']) *
                       int.parse(mP[i]['quantity']));
-                  // print(mP[i]['quantity']);
                 }
 
                 // S
@@ -221,7 +239,6 @@ class _InvHomePageState extends State<InvHomePage> {
                             //     });
                             //   });
 
-                            // tosendData.add(data);
                             return Container(
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(border: Border.all()),
@@ -238,15 +255,15 @@ class _InvHomePageState extends State<InvHomePage> {
                                             label: "Edit",
                                             icon: Icons.edit,
                                             onPressed: (context) {
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) =>
-                                              //             Editpage(
-                                              //               eD: data.data(),
-                                              //               dbid: data.id,
-                                              //             )
-                                              //             ));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Editpage(
+                                                            eD: mainDoc,
+                                                            dbid:
+                                                                dbID[index].id,
+                                                          )));
                                             }),
                                       ],
                                     ),
@@ -258,7 +275,7 @@ class _InvHomePageState extends State<InvHomePage> {
                                             label: "Delete",
                                             icon: Icons.delete,
                                             onPressed: (_) {
-                                              // delete(data.id);
+                                              delete(dbID[index].id);
                                             }),
                                       ],
                                     ),
@@ -268,13 +285,13 @@ class _InvHomePageState extends State<InvHomePage> {
                                       child: InkWell(
                                         splashColor: Colors.blueAccent,
                                         onTap: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             Displaypage(
-                                          //               dEd: data.data(),
-                                          //             )));
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Displaypage(
+                                                        dEd: mainDoc,
+                                                      )));
                                         },
                                         child: Column(
                                           crossAxisAlignment:
@@ -301,7 +318,7 @@ class _InvHomePageState extends State<InvHomePage> {
                                                         'Name: ${mainDoc['name']} ',
                                                         textAlign:
                                                             TextAlign.start,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 14),
                                                       )),
@@ -332,7 +349,7 @@ class _InvHomePageState extends State<InvHomePage> {
                                             Padding(
                                               padding: const EdgeInsets.all(8),
                                               child: Column(
-                                                children: [
+                                                children: const [
                                                   Text(
                                                     'Total',
                                                     style: TextStyle(
@@ -348,8 +365,7 @@ class _InvHomePageState extends State<InvHomePage> {
                                                 children: [
                                                   Text(
                                                     '₹ ${int.parse(mainDoc['quantity']) * int.parse(mainDoc['amount'])}/-',
-                                                    // '₹ hi',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Colors.black87),
                                                   ),
                                                 ],

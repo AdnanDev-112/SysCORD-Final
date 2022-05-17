@@ -38,7 +38,7 @@ class _InvHomePageState extends State<InvHomePage> {
     'November',
     'December'
   ];
-  bool isDescending = true;
+  bool isDescending = false;
 
   //DB Function Delete
   Future<void> delete(String id) async {
@@ -55,7 +55,7 @@ class _InvHomePageState extends State<InvHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inventory'),
+        title: Text('Entries'),
         actions: [
           InkWell(
             onTap: () {
@@ -147,6 +147,13 @@ class _InvHomePageState extends State<InvHomePage> {
                 });
 
                 tosendData = mP;
+                int totalAmt = 0;
+                print(mP);
+                for (int i = 0; i < mP.length; i++) {
+                  totalAmt += (int.parse(mP[i]['amount']) *
+                      int.parse(mP[i]['quantity']));
+                  // print(mP[i]['quantity']);
+                }
 
                 // S
                 return Column(
@@ -340,8 +347,8 @@ class _InvHomePageState extends State<InvHomePage> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    // '₹ ${int.parse(mainDoc['quantity']) * int.parse(mainDoc['amount'])}/-',
-                                                    '₹ hi',
+                                                    '₹ ${int.parse(mainDoc['quantity']) * int.parse(mainDoc['amount'])}/-',
+                                                    // '₹ hi',
                                                     style: TextStyle(
                                                         color: Colors.black87),
                                                   ),
@@ -355,6 +362,44 @@ class _InvHomePageState extends State<InvHomePage> {
                               ),
                             );
                           }),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Container(
+                      color: Color.fromARGB(137, 158, 171, 184),
+                      child: Table(
+                          border: TableBorder.all(
+                              color: Colors.black87,
+                              width: 2,
+                              style: BorderStyle.solid),
+                          children: [
+                            TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'OverAll Total',
+                                      style: TextStyle(color: Colors.black87),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      '₹ $totalAmt /-',
+                                      // '₹ hi',
+                                      style: TextStyle(color: Colors.black87),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]),
+                          ]),
                     ),
                   ],
                 );

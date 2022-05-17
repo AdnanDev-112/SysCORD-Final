@@ -68,7 +68,7 @@ class _InputpageState extends State<Inputpage> {
     String timeStamp = '$tt $tempTime';
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form'),
+        title: Text('Add Entry'),
       ),
       body: SingleChildScrollView(
         child: Form(

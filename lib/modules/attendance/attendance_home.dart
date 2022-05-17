@@ -154,7 +154,7 @@ class AttendanceHome extends StatelessWidget {
                       size: 70,
                     ),
                     Text(
-                      'Total',
+                      'Excel',
                       style: TextStyle(fontSize: 20),
                     )
                   ],

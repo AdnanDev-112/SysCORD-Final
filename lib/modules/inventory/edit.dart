@@ -70,7 +70,7 @@ class _EditpageState extends State<Editpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Entry'),
+        title: Text('Edit Entry'),
       ),
       body: SingleChildScrollView(
         key: formkey,

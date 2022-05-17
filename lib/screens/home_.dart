@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sysbin/modules/activity/activity_home.dart';
 import 'package:sysbin/modules/inventory/inventory_home.dart';
 
 import '../modules/attendance/attendance_home.dart';
@@ -29,6 +30,8 @@ class _HomeState extends State<Home> {
       container = AttendanceHome();
     } else if (currentPage == DrawerSections.inventory) {
       container = InvHomePage();
+    } else if (currentPage == DrawerSections.activity) {
+      container = ActivityHome();
     }
     Widget menuItem(int id, String title, IconData icon, bool selected) {
       return Material(

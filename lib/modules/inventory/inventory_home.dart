@@ -379,7 +379,7 @@ class _InvHomePageState extends State<InvHomePage> {
                             );
                           }),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Container(
@@ -394,7 +394,7 @@ class _InvHomePageState extends State<InvHomePage> {
                               Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Column(
-                                  children: [
+                                  children: const [
                                     Text(
                                       'OverAll Total',
                                       style: TextStyle(color: Colors.black87),
@@ -408,7 +408,6 @@ class _InvHomePageState extends State<InvHomePage> {
                                   children: [
                                     Text(
                                       '₹ $totalAmt /-',
-                                      // '₹ hi',
                                       style: TextStyle(color: Colors.black87),
                                     ),
                                   ],
@@ -420,10 +419,10 @@ class _InvHomePageState extends State<InvHomePage> {
                   ],
                 );
               } else {
-                return Container(child: Text('No Data'));
+                return Container(child: const Text('No Data'));
               }
             } else {
-              return Container(child: Text('No Data Found'));
+              return Container(child: const Text('No Data Found'));
             }
           }),
       floatingActionButton: FloatingActionButton(

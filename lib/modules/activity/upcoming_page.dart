@@ -20,7 +20,17 @@ class _UpcomingPageState extends State<UpcomingPage> {
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
                 if (snapshot.data!.docs.isNotEmpty) {
-                  return Text('hi');
+                  return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (__, index) {
+                        var data = snapshot.data!.docs[index].data();
+
+                        return ListTile(
+                          title: Text(data['eventName']),
+                          subtitle: Text(data['date']),
+                          trailing: Text('10.00AM to 11.00AM'),
+                        );
+                      });
                 } else {
                   return Container(child: const Text('No Data'));
                 }

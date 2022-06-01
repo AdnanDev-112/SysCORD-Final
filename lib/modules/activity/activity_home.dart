@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sysbin/modules/activity/add_activity.dart';
 import 'package:sysbin/modules/activity/completed_page.dart';
 import 'package:sysbin/modules/activity/upcoming_page.dart';
 
@@ -59,6 +60,13 @@ class _ActivityHomeState extends State<ActivityHome> {
           ]),
           isCompletedSelected ? CompletedPage() : UpcomingPage(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddActivity()));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

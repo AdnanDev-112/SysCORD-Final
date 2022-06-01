@@ -57,6 +57,8 @@ dependencies:
 
   # Month Year Picker
   month_year_picker: ^0.1.0+1
+  #Google Fonts
+  google_fonts:
 
 dev_dependencies:
   flutter_test:

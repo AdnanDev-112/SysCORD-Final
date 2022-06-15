@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sysbin/modules/activity/add_activity.dart';
 import 'package:sysbin/modules/activity/completed_page.dart';
+import 'package:sysbin/modules/activity/notifications_api.dart';
 import 'package:sysbin/modules/activity/upcoming_page.dart';
 
 class ActivityHome extends StatefulWidget {
@@ -16,6 +17,28 @@ class _ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        InkWell(
+          onTap: () {
+            print('Clicked');
+            // NotificationApi.showScheduleNotification(
+            //     title: 'Test',
+            //     body: 'Party',
+            //     payload: 'Wakanda',
+            //     scheduledDate: DateTime.now().add(Duration(seconds: 10)));
+            NotificationApi.showNotification(
+              id: 0,
+              title: 'Test',
+              body: 'Party',
+              payload: 'Wakanda',
+            );
+          },
+          child: const Icon(
+            Icons.notifications,
+            size: 36,
+          ),
+        ),
+      ]),
       body: Column(
         children: [
           Row(children: [

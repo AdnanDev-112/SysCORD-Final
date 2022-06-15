@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sysbin/modules/activity/display_page.dart';
 
 class UpcomingPage extends StatefulWidget {
   const UpcomingPage({Key? key}) : super(key: key);
@@ -26,6 +27,15 @@ class _UpcomingPageState extends State<UpcomingPage> {
                         var data = snapshot.data!.docs[index].data();
 
                         return ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ActivityDisplay(
+                                          isComplete: false,
+                                          data: data,
+                                        )));
+                          },
                           title: Text(data['eventName']),
                           subtitle: Text(data['date']),
                           trailing: Text('10.00AM to 11.00AM'),

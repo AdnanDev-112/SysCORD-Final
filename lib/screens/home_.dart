@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
     if (currentPage == DrawerSections.dashboard) {
       container = Container(
         child: Center(
-          child: Text('Coming Soon....'),
+          child: Text('Coming Soon'),
         ),
       );
     } else if (currentPage == DrawerSections.attendance) {

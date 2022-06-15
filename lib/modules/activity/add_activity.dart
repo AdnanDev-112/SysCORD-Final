@@ -48,6 +48,14 @@ class _AddActivityState extends State<AddActivity> {
         "endTime": endTime,
         'timestamp': timeStamp
       });
+      await FirebaseFirestore.instance.collection("completed_events").add({
+        "eventName": eventName,
+        "date": date,
+        "desc": desc,
+        "startTime": startTime,
+        "endTime": endTime,
+        'timestamp': timeStamp
+      });
     } catch (e) {
       print(e);
     }

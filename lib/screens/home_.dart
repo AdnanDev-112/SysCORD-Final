@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sysbin/modules/activity/activity_home.dart';
 import 'package:sysbin/modules/inventory/inventory_home.dart';
+import 'package:sysbin/screens/login.dart';
 
 import '../modules/attendance/attendance_home.dart';
 
@@ -16,6 +18,12 @@ enum DrawerSections { dashboard, activity, attendance, inventory }
 class _HomeState extends State<Home> {
   var currentPage = DrawerSections.dashboard;
   String appBarText = 'SysCORD';
+  // Logout function
+  Future<void> logOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +60,8 @@ class _HomeState extends State<Home> {
               } else if (id == 4) {
                 appBarText = 'Inventory';
                 currentPage = DrawerSections.inventory;
+              } else if (id == 5) {
+                logOut(context);
               }
             });
           },
@@ -96,6 +106,8 @@ class _HomeState extends State<Home> {
           menuItem(3, "Activity", Icons.event,
               currentPage == DrawerSections.activity ? true : false),
           menuItem(4, "Inventory", Icons.inventory,
+              currentPage == DrawerSections.inventory ? true : false),
+          menuItem(5, "LogOut", Icons.logout,
               currentPage == DrawerSections.inventory ? true : false),
         ]),
       );

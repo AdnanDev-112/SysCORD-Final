@@ -5,6 +5,8 @@ import 'package:open_file/open_file.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 class ActivityDisplay extends StatelessWidget {
   Map data;
   final bool isComplete;
@@ -70,6 +72,174 @@ class ActivityDisplay extends StatelessWidget {
                                 fontSize: 18, fontFamily: 'sans-sheriff')),
                       ],
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Start Time',
+                                style: GoogleFonts.lato(
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                  height: 52,
+                                  margin: const EdgeInsets.only(top: 8),
+                                  padding: const EdgeInsets.only(left: 14),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          readOnly: true,
+                                          autofocus: false,
+                                          cursorColor: Colors.black,
+                                          validator: (value) {
+                                            return null;
+                                          },
+                                          style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey[100],
+                                            ),
+                                          ),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              // hintText: _startTime,
+                                              hintText: " ${data['startTime']}",
+                                              hintStyle: GoogleFonts.lato(
+                                                textStyle: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              focusedBorder:
+                                                  const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 0)),
+                                              enabledBorder:
+                                                  const UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 0))),
+                                        ),
+                                      ),
+                                      Container(
+                                          child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.access_time_outlined,
+                                        ),
+                                        color: Colors.black,
+                                      ))
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'End Time',
+                                style: GoogleFonts.lato(
+                                  textStyle: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                  height: 52,
+                                  margin: EdgeInsets.only(top: 8),
+                                  padding: EdgeInsets.only(left: 14),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          readOnly: true,
+                                          autofocus: false,
+                                          cursorColor: Colors.black,
+                                          validator: (value) {
+                                            return null;
+                                          },
+                                          style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.grey[100],
+                                            ),
+                                          ),
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: " ${data['endTime']}",
+                                              hintStyle: GoogleFonts.lato(
+                                                textStyle: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 0)),
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white,
+                                                          width: 0))),
+                                        ),
+                                      ),
+                                      Container(
+                                          child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.access_time_outlined,
+                                        ),
+                                        color: Colors.black,
+                                      ))
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 10,

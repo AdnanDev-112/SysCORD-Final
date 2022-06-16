@@ -53,7 +53,8 @@ dependencies:
   permission_handler:
     ^9.2.0
     # Progress indicator
-  percent_indicator: ^4.0.0
+  percent_indicator:
+    ^4.0.0
     # PDF
   syncfusion_flutter_pdf: ^20.1.58-beta
 
@@ -63,7 +64,6 @@ dependencies:
   google_fonts:
   #Notifications
   flutter_local_notifications: ^9.5.3+1
-  
   flutter_native_timezone: ^2.0.0
 
 dev_dependencies:

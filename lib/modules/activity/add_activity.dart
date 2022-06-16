@@ -64,6 +64,8 @@ class _AddActivityState extends State<AddActivity> {
   // Time Pickers
   String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   String _endTime = "";
+  String? startTimerText = '';
+  String? endTimerText = '';
   _getTimeFromUser({required bool isStartTime}) async {
     var _pickedTime = await _showTimePicker();
     String _formattedTime = _pickedTime.format(context);
@@ -71,13 +73,16 @@ class _AddActivityState extends State<AddActivity> {
       print("Time Cancelled");
     } else if (isStartTime == true) {
       setState(() {
-        _startTime = _formattedTime;
+        startTimerText = _formattedTime;
+        // _startTime = _formattedTime;
         // startTime.text = _formattedTime;
         startTime.value = TextEditingValue(text: _formattedTime);
+        print(_startTime);
       });
     } else if (isStartTime == false) {
       setState(() {
-        _endTime = _formattedTime;
+        endTimerText = _formattedTime;
+        // _endTime = _formattedTime;
         endTime.value = TextEditingValue(text: _formattedTime);
         // endTime.text = _formattedTime;
       });
@@ -229,7 +234,7 @@ class _AddActivityState extends State<AddActivity> {
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
                                             // hintText: _startTime,
-                                            hintText: startTime.text,
+                                            hintText: startTimerText,
                                             hintStyle: GoogleFonts.lato(
                                               textStyle: const TextStyle(
                                                 fontSize: 14,
@@ -319,7 +324,7 @@ class _AddActivityState extends State<AddActivity> {
                                         ),
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: _endTime,
+                                            hintText: endTimerText,
                                             hintStyle: GoogleFonts.lato(
                                               textStyle: TextStyle(
                                                 fontSize: 14,

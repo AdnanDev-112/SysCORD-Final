@@ -38,7 +38,8 @@ class _UpcomingPageState extends State<UpcomingPage> {
                           },
                           title: Text(data['eventName']),
                           subtitle: Text(data['date']),
-                          trailing: Text('10.00AM to 11.00AM'),
+                          trailing: Text(
+                              '${data['startTime']} to ${data['endTime']}'),
                         );
                       });
                 } else {

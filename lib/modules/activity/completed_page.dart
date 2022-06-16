@@ -38,8 +38,10 @@ class _CompletedPageState extends State<CompletedPage> {
                                         )));
                           },
                           title: Text(data['eventName']),
-                          subtitle: Text(data['date']),
-                          trailing: Text('10.00AM to 11.00AM'),
+                          // subtitle: Text(data['date']),
+                          // trailing: Text('10.00AM to 11.00AM'),
+                          trailing: Text(data['date']),
+                          // trailing: Text('10.00AM to 11.00AM'),
                         );
                       });
                 } else {

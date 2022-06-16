@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sysbin/screens/home_.dart';
+import 'package:sysbin/services/userauth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -140,12 +141,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: 'Login SuccessFull'),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Home()))
-              })
-          .catchError((e) {
+          .then((uid) {
+        UserHelper.saveUser(uid.user!);
+        Fluttertoast.showToast(msg: 'Login SuccessFull');
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      }).catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sysbin/modules/activity/activity_home.dart';
 import 'package:sysbin/modules/inventory/inventory_home.dart';
+import 'package:sysbin/screens/dashboard.dart';
 import 'package:sysbin/screens/login.dart';
 
 import '../modules/attendance/attendance_home.dart';
@@ -29,11 +30,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var container;
     if (currentPage == DrawerSections.dashboard) {
-      container = Container(
-        child: Center(
-          child: Text('Coming Soon'),
-        ),
-      );
+      container = DashBoard();
     } else if (currentPage == DrawerSections.attendance) {
       container = AttendanceHome();
     } else if (currentPage == DrawerSections.inventory) {
@@ -107,8 +104,7 @@ class _HomeState extends State<Home> {
               currentPage == DrawerSections.activity ? true : false),
           menuItem(4, "Inventory", Icons.inventory,
               currentPage == DrawerSections.inventory ? true : false),
-          menuItem(5, "LogOut", Icons.logout,
-              currentPage == DrawerSections.inventory ? true : false),
+          menuItem(5, "LogOut", Icons.logout, false),
         ]),
       );
     }

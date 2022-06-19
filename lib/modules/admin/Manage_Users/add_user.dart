@@ -18,7 +18,8 @@ class _AddUserState extends State<AddUser> {
   TextEditingController password = TextEditingController();
   bool isAdmin = false;
 
-  Future<void> create(String name, String email, String password) async {
+  Future<void> create(
+      String name, String email, String password, bool adminStatus) async {
     try {
       // Map<String, String> customHeaders = {"content-type": "application/json"};
 
@@ -27,10 +28,11 @@ class _AddUserState extends State<AddUser> {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{
+          body: jsonEncode(<String, dynamic>{
             "email": email,
             "username": name,
-            "password": password
+            "password": password,
+            "isAdmin": adminStatus
           }));
       print('Response status: ${response.statusCode}');
       // print('Response body: ${response.body}');
@@ -148,11 +150,7 @@ class _AddUserState extends State<AddUser> {
           child: ElevatedButton(
             onPressed: () {
               if (formkey.currentState!.validate()) {
-                create(
-                  name.text,
-                  email.text,
-                  password.text,
-                );
+                create(name.text, email.text, password.text, isAdmin);
 
                 Navigator.pop(context);
               }

@@ -10,12 +10,12 @@ class UserHelper {
       "email": user.email,
       "last_login": user.metadata.lastSignInTime!.millisecondsSinceEpoch,
       "created_at": user.metadata.creationTime!.millisecondsSinceEpoch,
-      "role": "user",
     };
     final userRef = _db.collection("usersLogin").doc(user.uid);
     if ((await userRef.get()).exists) {
       await userRef.update({
         "last_login": user.metadata.lastSignInTime!.millisecondsSinceEpoch,
+        "created_at": user.metadata.creationTime!.millisecondsSinceEpoch,
       });
     } else {
       await _db.collection("usersLogin").doc(user.uid).set(userData);

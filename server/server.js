@@ -50,7 +50,7 @@ const db = firebase.firestore();
 
 app.post("/createUser", jsonParser, (req, res) => {
     console.log(req.body);
-    const { email: recEmail, username: recUsername, password: recPassword } = req.body;
+    const { email: recEmail, username: recUsername, password: recPassword, isAdmin } = req.body;
 
 
     res.sendStatus(200)
@@ -59,18 +59,19 @@ app.post("/createUser", jsonParser, (req, res) => {
             email: recEmail,
             emailVerified: false,
             password: recPassword,
+            displayName: recUsername
 
         }).then((userRecord) => {
             console.log('User Created Successfully')
             console.log(userRecord);
-            db.collection("usersLogin").add({
-                first: "Ada",
-                last: "Lovelace",
-                born: 1815
+            db.collection("usersLogin").doc(`${userRecord.uid}`).set({
+                email: recEmail,
+                name: recUsername,
+                role: isAdmin ? "admin" : "user",
+
+            }).then((docRef) => {
+                console.log("Document written ");
             })
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                })
                 .catch((error) => {
                     console.error("Error adding document: ", error);
                 });

@@ -68,6 +68,31 @@ class _DashBoardState extends State<DashBoard> {
                 ),
               ),
             ),
+            InkWell(
+              onTap: () {
+                // final FirebaseAuth auth = FirebaseAuth.instance;
+                // print(auth.currentUser);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.scale,
+                      size: 70,
+                    ),
+                    Text(
+                      'Tes',
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

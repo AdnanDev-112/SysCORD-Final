@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
 
 class AddUser extends StatefulWidget {
   const AddUser({Key? key}) : super(key: key);
@@ -18,7 +19,31 @@ class _AddUserState extends State<AddUser> {
   bool isAdmin = false;
 
   Future<void> create(String name, String email, String password) async {
-    print('g');
+    try {
+      // Map<String, String> customHeaders = {"content-type": "application/json"};
+
+      var url = Uri.parse('http://192.168.0.106:3000/createUser');
+      var response = await http.post(url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            "email": email,
+            "username": name,
+            "password": password
+          }));
+      print('Response status: ${response.statusCode}');
+      // print('Response body: ${response.body}');
+      // final credential =
+      //     await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // );
+      // print('This is Creds Returned');
+      // print(credential);
+    } catch (e) {
+      print(e);
+    }
   }
 
   void toggleSwitch(bool value) {
@@ -65,6 +90,7 @@ class _AddUserState extends State<AddUser> {
                 ),
                 TextFormField(
                   controller: email,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: ("Enter the email"),
@@ -72,26 +98,32 @@ class _AddUserState extends State<AddUser> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Please Fill the Required Field";
+                    }
+                    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                        .hasMatch(value)) {
+                      return ('Please Enter a Valid Email');
                     } else {
                       return null;
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 TextFormField(
-                  keyboardType: TextInputType.phone,
+                  // keyboardType: TextInputType.phone,
                   controller: password,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: ("Enter the password"),
                   ),
                   validator: (value) {
+                    RegExp regex = RegExp(r'^.{6,}$');
                     if (value!.isEmpty) {
-                      return "Please Fill the Required Field";
-                    } else {
-                      return null;
+                      return ('Password is Required');
+                    }
+                    if (!regex.hasMatch(value)) {
+                      return ('Enter Valid Password(Min. 6 Characters)');
                     }
                   },
                 ),
@@ -109,7 +141,7 @@ class _AddUserState extends State<AddUser> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         color: Colors.transparent,
         child: BottomAppBar(
           color: Colors.transparent,

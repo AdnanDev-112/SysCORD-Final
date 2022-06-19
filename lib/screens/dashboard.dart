@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sysbin/modules/admin/Manage_Users/managerhome.dart';
+import 'package:sysbin/providers/userroleprov.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -70,8 +72,8 @@ class _DashBoardState extends State<DashBoard> {
             ),
             InkWell(
               onTap: () {
-                // final FirebaseAuth auth = FirebaseAuth.instance;
-                // print(auth.currentUser);
+                // print(Provider.of<UserRoleProvider>(context, listen: false)
+                //     .isAdmin);
               },
               child: Container(
                 decoration: BoxDecoration(

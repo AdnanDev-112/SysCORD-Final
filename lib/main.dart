@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sysbin/providers/userroleprov.dart';
 import 'package:sysbin/screens/home_.dart';
 import 'package:sysbin/screens/login.dart';
 
@@ -36,17 +38,24 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: FirebaseAuth.instance.currentUser == null
-          ? 'LoginScreen'
-          : 'HomeScreen',
-      routes: {
-        'HomeScreen': (context) => Home(),
-        'LoginScreen': (context) => LoginScreen(),
-      },
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: const LoginScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserRoleProvider>(
+          create: (context) => UserRoleProvider(),
+        )
+      ],
+      child: MaterialApp(
+        initialRoute: FirebaseAuth.instance.currentUser == null
+            ? 'LoginScreen'
+            : 'HomeScreen',
+        routes: {
+          'HomeScreen': (context) => Home(),
+          'LoginScreen': (context) => LoginScreen(),
+        },
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.green),
+        home: const LoginScreen(),
+      ),
     );
   }
 

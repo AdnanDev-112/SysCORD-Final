@@ -63,7 +63,7 @@ app.post("/createUser", jsonParser, (req, res) => {
 
         }).then((userRecord) => {
             console.log('User Created Successfully')
-            console.log(userRecord);
+
             db.collection("usersLogin").doc(`${userRecord.uid}`).set({
                 email: recEmail,
                 name: recUsername,

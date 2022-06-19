@@ -68,6 +68,8 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   # API
   http: ^0.13.4
+  # State
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

@@ -36,6 +36,7 @@ class _UpcomingPageState extends State<UpcomingPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ActivityDisplay(
+                                            indexId: index,
                                             isComplete: false,
                                             data: data,
                                           )));

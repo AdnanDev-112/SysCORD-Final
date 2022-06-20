@@ -14,38 +14,6 @@ class ActivityHome extends StatefulWidget {
 class _ActivityHomeState extends State<ActivityHome> {
   bool isCompletedSelected = false;
 
-  // Notifications
-  FlutterLocalNotificationsPlugin flutterNoti =
-      FlutterLocalNotificationsPlugin();
-  void initState() {
-    super.initState();
-    var androidInitialize = AndroidInitializationSettings('app_icon');
-    var iOSInit = IOSInitializationSettings();
-    var initializationSettings =
-        InitializationSettings(android: androidInitialize, iOS: iOSInit);
-    flutterNoti.initialize(
-      initializationSettings,
-      // onSelectNotification: notificationSelected
-    );
-  }
-
-  _showNotification() async {
-    var androidDetails = AndroidNotificationDetails(
-        'Channel ID', 'Channel Name',
-        importance: Importance.max);
-    var iOSDetails = IOSNotificationDetails();
-    var genralNotificationDetails =
-        NotificationDetails(android: androidDetails, iOS: iOSDetails);
-
-// Show the Noti
-    // await flutterNoti.show(
-    //     0, 'Test', 'This is a TEST', genralNotificationDetails);
-    var scheduledTime = DateTime.now().add(Duration(seconds: 5));
-
-    await flutterNoti.schedule(
-        0, 'Test', 'This is a TEST', scheduledTime, genralNotificationDetails);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

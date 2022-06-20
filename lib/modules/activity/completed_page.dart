@@ -33,6 +33,7 @@ class _CompletedPageState extends State<CompletedPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ActivityDisplay(
+                                          indexId: index,
                                           isComplete: true,
                                           data: data,
                                         )));

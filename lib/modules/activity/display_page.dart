@@ -6,21 +6,38 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sysbin/services/local_notificationservice.dart';
 
 class ActivityDisplay extends StatelessWidget {
   Map data;
   final bool isComplete;
-  ActivityDisplay({Key? key, required this.data, required this.isComplete})
+  final int indexId;
+  ActivityDisplay(
+      {Key? key,
+      required this.data,
+      required this.indexId,
+      required this.isComplete})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    LocalNotificationSerrvice notiService = LocalNotificationSerrvice();
+    notiService.initialize();
     return Scaffold(
       appBar: AppBar(
         title: Text("Detailed Information"),
         actions: [
           InkWell(
-            onTap: () {
+            onTap: () async {
+              await notiService.showScheduledNotification(
+                  seconds: 10,
+                  id: indexId,
+                  title: data['eventName'],
+                  body: "Event has begun");
+              // await notiService.showNotification(
+              //     id: indexId,
+              //     title: data['eventName'],
+              //     body: "Event has begun");
               print('Clicked');
             },
             child: const Icon(

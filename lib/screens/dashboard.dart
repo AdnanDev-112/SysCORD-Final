@@ -45,56 +45,6 @@ class _DashBoardState extends State<DashBoard> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => AddSubject()));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.book,
-                      size: 70,
-                    ),
-                    Text(
-                      'Manage Subjetcs',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                // print(Provider.of<UserRoleProvider>(context, listen: false)
-                //     .isAdmin);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.scale,
-                      size: 70,
-                    ),
-                    Text(
-                      'Tes',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),

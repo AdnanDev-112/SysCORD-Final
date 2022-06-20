@@ -6,6 +6,7 @@ import 'package:sysbin/modules/inventory/inventory_home.dart';
 import 'package:sysbin/providers/userroleprov.dart';
 import 'package:sysbin/screens/dashboard.dart';
 import 'package:sysbin/screens/login.dart';
+import 'package:sysbin/screens/userBoard.dart';
 import 'package:sysbin/services/userauth.dart';
 
 import '../modules/attendance/attendance_home.dart';
@@ -36,12 +37,13 @@ class _HomeState extends State<Home> {
     final FirebaseAuth authh = FirebaseAuth.instance;
     final User user = authh.currentUser!;
     UserHelper().updateProvider(user, context);
-    bool isAdmin =
-        Provider.of<UserRoleProvider>(context, listen: false).isAdmin;
+    bool isAdmin = Provider.of<UserRoleProvider>(context, listen: true).isAdmin;
     //
     var container;
     if (currentPage == DrawerSections.dashboard && isAdmin) {
       container = DashBoard();
+    } else if (currentPage == DrawerSections.dashboard && !isAdmin) {
+      container = UserBoard();
     } else if (currentPage == DrawerSections.attendance) {
       container = AttendanceHome();
     } else if (currentPage == DrawerSections.inventory) {
@@ -107,17 +109,16 @@ class _HomeState extends State<Home> {
         padding: const EdgeInsets.only(top: 15),
         child: Column(children: [
           // Show the List of Menu Drawer
-          if (isAdmin) ...[
-            menuItem(1, "Dashboard", Icons.dashboard_customize_outlined,
-                currentPage == DrawerSections.dashboard ? true : false)
-          ],
-
+          menuItem(1, "Dashboard", Icons.dashboard_customize_outlined,
+              currentPage == DrawerSections.dashboard ? true : false),
           menuItem(2, "Attendance", Icons.badge,
               currentPage == DrawerSections.attendance ? true : false),
           menuItem(3, "Activity", Icons.event,
               currentPage == DrawerSections.activity ? true : false),
-          menuItem(4, "Inventory", Icons.inventory,
-              currentPage == DrawerSections.inventory ? true : false),
+          if (isAdmin) ...[
+            menuItem(4, "Inventory", Icons.inventory,
+                currentPage == DrawerSections.inventory ? true : false),
+          ],
           menuItem(5, "LogOut", Icons.logout, false),
         ]),
       );

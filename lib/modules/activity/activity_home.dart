@@ -49,54 +49,81 @@ class _ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        InkWell(
-          onTap: () {
-            print('Clicked');
-            _showNotification();
-          },
-          child: const Icon(
-            Icons.notifications,
-            size: 36,
-          ),
-        ),
-      ]),
+      appBar: AppBar(
+          // title: Text(''),
+          actions: [
+            // InkWell(
+            //   onTap: () {
+            //     print('Clicked');
+            //     _showNotification();
+            //   },
+            //   child: const Icon(
+            //     Icons.notifications,
+            //     size: 36,
+            //   ),
+            // ),
+          ]),
       body: Column(
         children: [
           Row(children: [
             Expanded(
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isCompletedSelected = false;
-                    });
-                  },
-                  child: Text(
-                    'Upcoming',
-                    style: TextStyle(
-                      decoration: isCompletedSelected
-                          ? TextDecoration.none
-                          : TextDecoration.underline,
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2.5),
+                  gradient: isCompletedSelected
+                      ? null
+                      : LinearGradient(colors: [
+                          Color.fromARGB(255, 42, 114, 46),
+                          Colors.green
+                        ]),
+                ),
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isCompletedSelected = false;
+                      });
+                    },
+                    child: const Text(
+                      'Upcoming',
+                      style: TextStyle(
+                        fontSize: 20,
+                        // decoration: isCompletedSelected
+                        //     ? TextDecoration.none
+                        //     : TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
             Expanded(
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isCompletedSelected = true;
-                    });
-                  },
-                  child: Text(
-                    'Completed',
-                    style: TextStyle(
-                      decoration: isCompletedSelected
-                          ? TextDecoration.underline
-                          : TextDecoration.none,
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 2.5),
+                    gradient: isCompletedSelected
+                        ? LinearGradient(colors: [
+                            Color.fromARGB(255, 42, 114, 46),
+                            Colors.green
+                          ])
+                        : null),
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isCompletedSelected = true;
+                      });
+                    },
+                    child: const Text(
+                      'Completed',
+                      style: TextStyle(
+                        fontSize: 20,
+                        // decoration: isCompletedSelected
+                        //     ? TextDecoration.underline
+                        //     : TextDecoration.none,
+                      ),
                     ),
                   ),
                 ),

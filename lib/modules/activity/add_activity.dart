@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:sysbin/modules/activity/input_field.dart';
 import 'package:sysbin/modules/activity/inputfield_class.dart';
 
 class AddActivity extends StatefulWidget {
@@ -19,7 +20,7 @@ class _AddActivityState extends State<AddActivity> {
         context: context,
         initialDate: date,
         firstDate: date,
-        lastDate: DateTime(2100));
+        lastDate: DateTime(2030));
 
     if (datepicker != null && datepicker != date) {
       setState(() {
@@ -64,6 +65,7 @@ class _AddActivityState extends State<AddActivity> {
   // Time Pickers
   String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   String _endTime = "";
+
   String? startTimerText = '';
   String? endTimerText = '';
   _getTimeFromUser({required bool isStartTime}) async {
@@ -74,17 +76,20 @@ class _AddActivityState extends State<AddActivity> {
     } else if (isStartTime == true) {
       setState(() {
         startTimerText = _formattedTime;
-        // _startTime = _formattedTime;
+        _startTime = _formattedTime;
         // startTime.text = _formattedTime;
         startTime.value = TextEditingValue(text: _formattedTime);
-        print(_startTime);
+        // print(_startTime);
+        print(startTime.text);
       });
     } else if (isStartTime == false) {
       setState(() {
         endTimerText = _formattedTime;
-        // _endTime = _formattedTime;
+        _endTime = _formattedTime;
+
         endTime.value = TextEditingValue(text: _formattedTime);
         // endTime.text = _formattedTime;
+        print(endTime.text);
       });
     }
   }
@@ -212,48 +217,10 @@ class _AddActivityState extends State<AddActivity> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        autofocus: false,
-                                        cursorColor: Colors.black,
-                                        controller: startTime,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return "Enter Time";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                        style: GoogleFonts.lato(
-                                          textStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey[100],
-                                          ),
-                                        ),
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            // hintText: _startTime,
-                                            hintText: startTimerText,
-                                            hintStyle: GoogleFonts.lato(
-                                              textStyle: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            focusedBorder:
-                                                const UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white,
-                                                        width: 0)),
-                                            enabledBorder:
-                                                const UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white,
-                                                        width: 0))),
-                                      ),
-                                    ),
+                                        child: InputField(
+                                      hint: startTimerText!,
+                                      controller: startTime,
+                                    )),
                                     Container(
                                         child: IconButton(
                                       onPressed: () {
@@ -303,43 +270,9 @@ class _AddActivityState extends State<AddActivity> {
                                 child: Row(
                                   children: [
                                     Expanded(
-                                      child: TextFormField(
-                                        readOnly: true,
-                                        autofocus: false,
-                                        cursorColor: Colors.black,
+                                      child: InputField(
+                                        hint: endTimerText!,
                                         controller: endTime,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return "Enter Time";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                        style: GoogleFonts.lato(
-                                          textStyle: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey[100],
-                                          ),
-                                        ),
-                                        decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: endTimerText,
-                                            hintStyle: GoogleFonts.lato(
-                                              textStyle: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            focusedBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 0)),
-                                            enabledBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 0))),
                                       ),
                                     ),
                                     Container(

@@ -21,25 +21,30 @@ class _UpcomingPageState extends State<UpcomingPage> {
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
                 if (snapshot.data!.docs.isNotEmpty) {
-                  return ListView.builder(
+                  return ListView.separated(
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 15),
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (__, index) {
                         var data = snapshot.data!.docs[index].data();
 
-                        return ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ActivityDisplay(
-                                          isComplete: false,
-                                          data: data,
-                                        )));
-                          },
-                          title: Text(data['eventName']),
-                          subtitle: Text(data['date']),
-                          trailing: Text(
-                              '${data['startTime']} to ${data['endTime']}'),
+                        return Container(
+                          decoration: BoxDecoration(border: Border.all()),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ActivityDisplay(
+                                            isComplete: false,
+                                            data: data,
+                                          )));
+                            },
+                            title: Text(data['eventName']),
+                            subtitle: Text(data['date']),
+                            trailing: Text(
+                                '${data['startTime']} to ${data['endTime']}'),
+                          ),
                         );
                       });
                 } else {

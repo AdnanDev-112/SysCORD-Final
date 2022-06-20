@@ -18,6 +18,17 @@ class ActivityDisplay extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Detailed Information"),
+        actions: [
+          InkWell(
+            onTap: () {
+              print('Clicked');
+            },
+            child: const Icon(
+              Icons.notifications,
+              size: 36,
+            ),
+          ),
+        ],
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -57,11 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: passwordController,
       validator: (value) {
         RegExp regex = RegExp(r'^.{6,}$');
+        // RegExp regex = RegExp(
+        //     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$");
         if (value!.isEmpty) {
           return ('Password is Required');
         }
         if (!regex.hasMatch(value)) {
-          return ('Enter Valid Password(Min. 6 Characters)');
+          return ('Enter Valid Password(Min. 6 Characters ,One Upper and a Lowercase)');
         }
       },
       onSaved: (value) {
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginBtn = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.redAccent,
+      color: Colors.green[600],
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -89,7 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text(
           'Login',
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
         ),
       ),
     );
@@ -112,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 200,
                     child: Image.asset(
                       'assets/app_icon.png',
-                      fit: BoxFit.contain,
+                      // fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(

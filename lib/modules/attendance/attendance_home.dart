@@ -26,31 +26,49 @@ class AttendanceHome extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: GridView(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              mainAxisExtent: 175),
           children: [
+            // Latest
             InkWell(
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AddSubject()));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.add,
-                      size: 70,
+              child: Column(
+                children: [
+                  Container(
+                    height: 125,
+                    // width: 200,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage("assets/Add.jpg"),
+                            fit: BoxFit.fill)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 190,
+                    child: const Center(
+                        child: Text(
+                      "Add Subjects",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    )),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 224, 223, 223),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
                     ),
-                    Text(
-                      'Add Subjects',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -60,24 +78,38 @@ class AttendanceHome extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => TakeAttendance(andId: andId!)));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.orange,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.check,
-                      size: 70,
+              child: Column(
+                children: [
+                  Container(
+                    height: 125,
+                    // width: 200,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage("assets/take.jpg"),
+                            fit: BoxFit.fill)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 190,
+                    child: const Center(
+                        child: Text(
+                      "Take  Attendance",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    )),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 224, 223, 223),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
                     ),
-                    Text(
-                      'Take Attendance',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -87,24 +119,38 @@ class AttendanceHome extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => ViewHome(andId: andId!)));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.pink,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.description,
-                      size: 70,
+              child: Column(
+                children: [
+                  Container(
+                    height: 125,
+                    // width: 200,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage("assets/view.jpg"),
+                            fit: BoxFit.fill)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 190,
+                    child: const Center(
+                        child: Text(
+                      "View Records",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    )),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 224, 223, 223),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
                     ),
-                    Text(
-                      'View',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -114,24 +160,38 @@ class AttendanceHome extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => MonthHome(andId: andId!)));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.yellow,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.description,
-                      size: 70,
+              child: Column(
+                children: [
+                  Container(
+                    height: 125,
+                    // width: 200,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage("assets/month.jpg"),
+                            fit: BoxFit.fill)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 190,
+                    child: const Center(
+                        child: Text(
+                      "Monthly Records",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    )),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 224, 223, 223),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
                     ),
-                    Text(
-                      'Month',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
             InkWell(
@@ -141,24 +201,38 @@ class AttendanceHome extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => TotalPage(andId: andId!)));
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.blue,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.description,
-                      size: 70,
+              child: Column(
+                children: [
+                  Container(
+                    height: 125,
+                    // width: 200,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15.0),
+                          topRight: Radius.circular(15.0),
+                        ),
+                        image: DecorationImage(
+                            image: AssetImage("assets/excel.jpg"),
+                            fit: BoxFit.fill)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 190,
+                    child: const Center(
+                        child: Text(
+                      "Excel Report",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    )),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 224, 223, 223),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      ),
                     ),
-                    Text(
-                      'Excel',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ],

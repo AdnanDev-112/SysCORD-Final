@@ -24,19 +24,18 @@ class _CompletedPageState extends State<CompletedPage> {
               if (snapshot.hasData && snapshot.data != null) {
                 if (snapshot.data!.docs.isNotEmpty) {
                   return ListView.separated(
-                      separatorBuilder: (context, _) => SizedBox(height: 15),
+                      separatorBuilder: (context, _) => SizedBox(height: 5),
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (__, index) {
                         var data = snapshot.data!.docs[index].data();
 
                         return Container(
                           padding: EdgeInsets.all(2.0),
+                          margin: EdgeInsets.only(top: 10),
                           decoration: BoxDecoration(
                             border: Border.all(width: 2.0),
-                            gradient: LinearGradient(colors: [
-                              Color.fromARGB(255, 226, 228, 113),
-                              Color.fromARGB(255, 253, 252, 205)
-                            ]),
+                            gradient: LinearGradient(
+                                colors: [Colors.green, Colors.teal]),
                           ),
                           child: ListTile(
                             onTap: () {
@@ -53,11 +52,15 @@ class _CompletedPageState extends State<CompletedPage> {
                             title: Text(
                               data['eventName'],
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500),
+                                  fontSize: 18, fontWeight: FontWeight.w700),
                             ),
                             // subtitle: Text(data['date']),
                             // trailing: Text('10.00AM to 11.00AM'),
-                            trailing: Text(data['date']),
+                            trailing: Text(
+                              data['date'],
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
                             // trailing: Text('10.00AM to 11.00AM'),
                           ),
                         );

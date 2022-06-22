@@ -38,7 +38,7 @@ class _DashBoardState extends State<DashBoard> {
                       size: 70,
                     ),
                     Text(
-                      'Manage User ',
+                      'USERS',
                       style: TextStyle(fontSize: 20),
                     )
                   ],

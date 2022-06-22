@@ -67,6 +67,7 @@ app.post("/createUser", jsonParser, (req, res) => {
             db.collection("usersLogin").doc(`${userRecord.uid}`).set({
                 email: recEmail,
                 name: recUsername,
+
                 role: isAdmin ? "admin" : "user",
 
             }).then((docRef) => {
@@ -83,15 +84,87 @@ app.post("/createUser", jsonParser, (req, res) => {
     }
 
 
-})
+});
 
-// admin.auth().getUser("kf3xfB5pVUgUjZn6ci5ScNnc2mU2").then((userRecord) => {
+app.post("/updateUser", jsonParser, (req, res) => {
+    console.log(req.body);
+    const { email: recEmail, username: recUsername, password: recPassword, isAdmin, uid } = req.body;
 
-//     console.log(`Successfully fetched user data: ${JSON.stringify(userRecord)}`);
-// })
-//     .catch((error) => {
-//         console.log('Error fetching user data:', error);
-//     });
+
+    let objToSend;
+    if (recPassword != "" || recPassword.length != 0) {
+        objToSend = {
+            email: recEmail,
+            emailVerified: false,
+            password: recPassword,
+            displayName: recUsername
+
+        };
+    } else {
+        objToSend = {
+            email: recEmail,
+            emailVerified: false,
+            displayName: recUsername
+
+        };
+
+    }
+
+
+
+    try {
+        admin.auth().updateUser(uid, objToSend).then((userRecord) => {
+            console.log('User Updated Successfully')
+
+            db.collection("usersLogin").doc(`${userRecord.uid}`).set({
+                email: recEmail,
+                name: recUsername,
+                role: isAdmin ? "admin" : "user",
+
+            }).then((docRef) => {
+                console.log("Document written ");
+            })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+
+        });
+        res.sendStatus(200)
+    } catch (error) {
+        console.log('Error creating new user:', error);
+
+    }
+
+
+});
+
+app.post("/deleteUser", jsonParser, (req, res) => {
+    console.log(req.body);
+    const { id: recId, } = req.body;
+
+
+    res.sendStatus(200)
+    try {
+        admin.auth().deleteUser(recId).then((userRecord) => {
+            console.log('User Created Successfully')
+
+            db.collection("usersLogin").doc(recId).delete().then((docRef) => {
+                console.log("Document written ");
+            })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+
+        })
+    } catch (error) {
+        console.log('Error creating new user:', error);
+
+    }
+
+
+});
+
+
 
 app.listen(3000, () => {
     console.log('Server is running ')

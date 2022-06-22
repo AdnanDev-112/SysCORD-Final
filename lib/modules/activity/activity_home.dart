@@ -17,20 +17,20 @@ class _ActivityHomeState extends State<ActivityHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: Text(''),
-          actions: [
-            // InkWell(
-            //   onTap: () {
-            //     print('Clicked');
-            //     _showNotification();
-            //   },
-            //   child: const Icon(
-            //     Icons.notifications,
-            //     size: 36,
-            //   ),
-            // ),
-          ]),
+      // appBar: AppBar(
+      //     // title: Text(''),
+      //     actions: [
+      //       // InkWell(
+      //       //   onTap: () {
+      //       //     print('Clicked');
+      //       //     _showNotification();
+      //       //   },
+      //       //   child: const Icon(
+      //       //     Icons.notifications,
+      //       //     size: 36,
+      //       //   ),
+      //       // ),
+      //     ]),
       body: Column(
         children: [
           Row(children: [
@@ -42,8 +42,8 @@ class _ActivityHomeState extends State<ActivityHome> {
                   gradient: isCompletedSelected
                       ? null
                       : LinearGradient(colors: [
-                          Color.fromARGB(255, 42, 114, 46),
-                          Colors.green
+                          Color.fromARGB(255, 71, 179, 76),
+                          Color.fromARGB(255, 187, 240, 189)
                         ]),
                 ),
                 child: Center(
@@ -73,8 +73,8 @@ class _ActivityHomeState extends State<ActivityHome> {
                     border: Border.all(width: 2.5),
                     gradient: isCompletedSelected
                         ? LinearGradient(colors: [
-                            Color.fromARGB(255, 42, 114, 46),
-                            Colors.green
+                            Color.fromARGB(255, 187, 240, 189),
+                            Color.fromARGB(255, 233, 230, 71)
                           ])
                         : null),
                 child: Center(

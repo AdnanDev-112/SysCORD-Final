@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:sysbin/modules/admin/Manage_Users/add_user.dart';
+import 'package:sysbin/modules/admin/Manage_Users/manage_user.dart';
 
 class ManageUserHome extends StatelessWidget {
   const ManageUserHome({Key? key}) : super(key: key);
@@ -45,8 +46,8 @@ class ManageUserHome extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => AddSubject()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ManageUser()));
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -61,7 +62,7 @@ class ManageUserHome extends StatelessWidget {
                       size: 70,
                     ),
                     Text(
-                      'Delete User',
+                      'Manage User',
                       style: TextStyle(fontSize: 20),
                     )
                   ],

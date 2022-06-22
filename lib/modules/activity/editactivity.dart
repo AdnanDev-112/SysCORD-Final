@@ -5,14 +5,17 @@ import 'package:intl/intl.dart';
 import 'package:sysbin/modules/activity/input_field.dart';
 import 'package:sysbin/modules/activity/inputfield_class.dart';
 
-class AddActivity extends StatefulWidget {
-  const AddActivity({Key? key}) : super(key: key);
+class EditActivityPage extends StatefulWidget {
+  Map<String, dynamic> recievedData;
+  String dbid;
+  EditActivityPage({Key? key, required this.dbid, required this.recievedData})
+      : super(key: key);
 
   @override
-  State<AddActivity> createState() => _AddActivityState();
+  State<EditActivityPage> createState() => _EditActivityPageState();
 }
 
-class _AddActivityState extends State<AddActivity> {
+class _EditActivityPageState extends State<EditActivityPage> {
   DateTime date = DateTime.now();
   var nowDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
   _newdate(BuildContext context) async {
@@ -38,10 +41,13 @@ class _AddActivityState extends State<AddActivity> {
   TextEditingController desc = TextEditingController();
 
   // DB FUnction
-  Future<void> create(String eventName, String date, String desc,
-      String timeStamp, String startTime, String endTime) async {
+  Future<void> updateValues(String eventName, String date, String desc,
+      String timeStamp, String startTime, String endTime, String dbId) async {
     try {
-      await FirebaseFirestore.instance.collection("upcoming_events").add({
+      await FirebaseFirestore.instance
+          .collection("upcoming_events")
+          .doc(dbId)
+          .update({
         "eventName": eventName,
         "date": date,
         "desc": desc,
@@ -96,6 +102,16 @@ class _AddActivityState extends State<AddActivity> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    eventName.text = widget.recievedData['eventName'];
+    startTime.text = widget.recievedData['startTime'];
+    endTime.text = widget.recievedData['endTime'];
+    desc.text = widget.recievedData['desc'];
+    nowDate = widget.recievedData['date'];
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Date Format
     DateTime _date = DateTime.now();
@@ -109,7 +125,7 @@ class _AddActivityState extends State<AddActivity> {
     String timeStamp = '$tt $tempTime';
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Event'),
+        title: Text('Edit Event Details'),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -320,20 +336,14 @@ class _AddActivityState extends State<AddActivity> {
           child: ElevatedButton(
             onPressed: () {
               if (formkey.currentState!.validate()) {
-                create(
-                    eventName.text,
-                    nowDate.toString(),
-                    desc.text,
-                    timeStamp,
-                    // startTime.text, endTime.text);
-                    _startTime,
-                    _endTime);
+                updateValues(eventName.text, nowDate.toString(), desc.text,
+                    timeStamp, startTime.text, endTime.text, widget.dbid);
 
                 Navigator.pop(context);
               }
             },
             child: Text(
-              'Add',
+              'Save',
               style: TextStyle(color: Colors.white),
             ),
           ),

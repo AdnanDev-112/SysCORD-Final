@@ -229,16 +229,6 @@ class _InvHomePageState extends State<InvHomePage> {
                           itemCount: mP.length,
                           itemBuilder: (__, int index) {
                             Map<String, dynamic> mainDoc = mP[index];
-
-                            // if (ys.month == gg &&
-                            //     ys.year == int.parse(dropdownValue1)) {
-                            //   SchedulerBinding.instance!
-                            //       .addPostFrameCallback((_) {
-                            //     setState(() {
-                            //       tosendData.add(data);
-                            //     });
-                            //   });
-
                             return Container(
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(border: Border.all()),

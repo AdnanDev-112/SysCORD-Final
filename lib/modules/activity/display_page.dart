@@ -1,50 +1,82 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:open_file/open_file.dart';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sysbin/modules/activity/swap.dart';
+import 'package:sysbin/providers/userroleprov.dart';
 import 'package:sysbin/services/local_notificationservice.dart';
 
 class ActivityDisplay extends StatelessWidget {
-  Map data;
+  Map<String, dynamic> data;
+  String dbId;
   final bool isComplete;
   final int indexId;
   ActivityDisplay(
       {Key? key,
       required this.data,
+      required this.dbId,
       required this.indexId,
       required this.isComplete})
       : super(key: key);
 
+  // Date Difference Checker
+  int checkDate() {
+    DateTime date2 = DateFormat("yyyy-MM-dd hh:mma")
+        .parse('${data['date']} ${data['startTime'].replaceAll(' ', '')}');
+    DateTime now = DateTime.now();
+    var tomo = DateFormat("yyyy-MM-dd hh:mma").format(now);
+    DateTime agAin = DateFormat("yyyy-MM-dd hh:mma").parse(tomo);
+    var diffInMins2 = agAin.difference(date2).inSeconds;
+    print(diffInMins2);
+
+    if (diffInMins2 < 0) {
+      return diffInMins2.abs();
+    }
+
+    return 1;
+  }
+
+  int randomIndex() {
+    Random random = Random();
+    int randomNumber = random.nextInt(100) + 1;
+    return randomNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isAdmin = Provider.of<UserRoleProvider>(context, listen: true).isAdmin;
+
     LocalNotificationSerrvice notiService = LocalNotificationSerrvice();
     notiService.initialize();
     return Scaffold(
       appBar: AppBar(
         title: Text("Detailed Information"),
         actions: [
-          InkWell(
-            onTap: () async {
-              await notiService.showScheduledNotification(
-                  seconds: 10,
-                  id: indexId,
-                  title: data['eventName'],
-                  body: "Event has begun");
-              // await notiService.showNotification(
-              //     id: indexId,
-              //     title: data['eventName'],
-              //     body: "Event has begun");
-              print('Clicked');
-            },
-            child: const Icon(
-              Icons.notifications,
-              size: 36,
+          if (!isComplete) ...[
+            InkWell(
+              onTap: () async {
+                await notiService.showScheduledNotification(
+                    seconds: checkDate(),
+                    id: randomIndex(),
+                    title: data['eventName'],
+                    body: "Event has begun");
+                Fluttertoast.showToast(msg: 'Reminder Set');
+              },
+              child: const Icon(
+                Icons.notifications,
+                size: 36,
+              ),
             ),
-          ),
+          ]
         ],
       ),
       body: Row(
@@ -90,11 +122,13 @@ class ActivityDisplay extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Text("Date:",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'sans-sheriff')),
+                        Text(
+                          "Date:",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'sans-sheriff'),
+                        ),
                         Text(" ${data['date']}",
                             style: TextStyle(
                                 fontSize: 18, fontFamily: 'sans-sheriff')),
@@ -293,18 +327,41 @@ class ActivityDisplay extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Visibility(
                     visible: isComplete,
-                    child: ElevatedButton(
-                      style:
-                          TextButton.styleFrom(backgroundColor: Colors.yellow),
-                      onPressed: () {
-                        createPDF();
-                        print('pressed');
-                      },
-                      child: const Text(
-                        'Get Report',
-                        style: TextStyle(color: Colors.black),
+                    child: Center(
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.yellow),
+                        onPressed: () {
+                          createPDF();
+                          print('pressed');
+                        },
+                        child: const Text(
+                          'Get Report',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: !isComplete && isAdmin,
+                    child: Center(
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.orange),
+                        onPressed: () {
+                          SwapData().swapEvents(dbId, data);
+                          Fluttertoast.showToast(msg: 'Event Completed');
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Conclude Event',
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ),
                   ),

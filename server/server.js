@@ -49,7 +49,7 @@ const db = firebase.firestore();
 
 
 app.post("/createUser", jsonParser, (req, res) => {
-    console.log(req.body);
+
     const { email: recEmail, username: recUsername, password: recPassword, isAdmin } = req.body;
 
 
@@ -71,7 +71,7 @@ app.post("/createUser", jsonParser, (req, res) => {
                 role: isAdmin ? "admin" : "user",
 
             }).then((docRef) => {
-                console.log("Document written ");
+                // console.log("Document written ");
             })
                 .catch((error) => {
                     console.error("Error adding document: ", error);
@@ -87,7 +87,7 @@ app.post("/createUser", jsonParser, (req, res) => {
 });
 
 app.post("/updateUser", jsonParser, (req, res) => {
-    console.log(req.body);
+
     const { email: recEmail, username: recUsername, password: recPassword, isAdmin, uid } = req.body;
 
 
@@ -109,9 +109,6 @@ app.post("/updateUser", jsonParser, (req, res) => {
         };
 
     }
-
-
-
     try {
         admin.auth().updateUser(uid, objToSend).then((userRecord) => {
             console.log('User Updated Successfully')
@@ -122,7 +119,7 @@ app.post("/updateUser", jsonParser, (req, res) => {
                 role: isAdmin ? "admin" : "user",
 
             }).then((docRef) => {
-                console.log("Document written ");
+                // console.log("Document written ");
             })
                 .catch((error) => {
                     console.error("Error adding document: ", error);
@@ -139,17 +136,17 @@ app.post("/updateUser", jsonParser, (req, res) => {
 });
 
 app.post("/deleteUser", jsonParser, (req, res) => {
-    console.log(req.body);
+
     const { id: recId, } = req.body;
 
 
     res.sendStatus(200)
     try {
         admin.auth().deleteUser(recId).then((userRecord) => {
-            console.log('User Created Successfully')
+            console.log('User Deleted Successfully')
 
             db.collection("usersLogin").doc(recId).delete().then((docRef) => {
-                console.log("Document written ");
+                // console.log("Document written ");
             })
                 .catch((error) => {
                     console.error("Error adding document: ", error);

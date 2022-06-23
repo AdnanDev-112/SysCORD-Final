@@ -209,8 +209,9 @@ class _UpcomingPageState extends State<UpcomingPage> {
                           return Container(
                             height: 50,
                             color: Color.fromARGB(255, 165, 240, 142),
+                            // color: Color.fromARGB(255, 37, 77, 189),
                             child: InkWell(
-                              splashColor: Colors.blueAccent,
+                              // splashColor: Colors.blueAccent,
                               onTap: () {
                                 // Navigator.push(
                                 //   context,

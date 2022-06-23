@@ -74,7 +74,7 @@ class _ActivityHomeState extends State<ActivityHome> {
                     gradient: isCompletedSelected
                         ? LinearGradient(colors: [
                             Color.fromARGB(255, 187, 240, 189),
-                            Color.fromARGB(255, 233, 230, 71)
+                            Color.fromARGB(255, 71, 179, 76),
                           ])
                         : null),
                 child: Center(

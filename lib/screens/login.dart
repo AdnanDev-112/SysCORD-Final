@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool showPassword = false;
   // form Key
   final _formKey = GlobalKey<FormState>();
   // Editing Controllers
@@ -52,18 +53,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 // Password Field
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: !showPassword,
       autofocus: false,
       controller: passwordController,
       validator: (value) {
-        RegExp regex = RegExp(r'^.{6,}$');
-        // RegExp regex = RegExp(
-        //     r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$");
+        // RegExp regex = RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(
+            r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$");
         if (value!.isEmpty) {
           return ('Password is Required');
         }
         if (!regex.hasMatch(value)) {
-          return ('Enter Valid Password(Min. 6 Characters ,One Upper and a Lowercase)');
+          return ('Min. 6 Characters and Max 10 characters with Upper,Lowercase ,Number &  Special Characters');
         }
       },
       onSaved: (value) {
@@ -71,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
+        errorMaxLines: 3,
         hintText: 'Password',
         prefixIcon: Icon(Icons.key),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -126,6 +128,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 25,
                   ),
                   passwordField,
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        child: Text('Hide/Show Password')),
+                  ),
                   const SizedBox(
                     height: 35,
                   ),

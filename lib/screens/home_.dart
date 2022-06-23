@@ -42,8 +42,11 @@ class _HomeState extends State<Home> {
     var container;
     if (currentPage == DrawerSections.dashboard && isAdmin) {
       container = DashBoard();
-    } else if (currentPage == DrawerSections.dashboard && !isAdmin) {
-      container = UserBoard();
+    }
+    if (currentPage == DrawerSections.dashboard && !isAdmin) {
+      container = UserBoard(
+        isFromAdmin: false,
+      );
     } else if (currentPage == DrawerSections.attendance) {
       container = AttendanceHome();
     } else if (currentPage == DrawerSections.inventory) {

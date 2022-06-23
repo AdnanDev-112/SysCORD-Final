@@ -11,6 +11,7 @@ class AddUser extends StatefulWidget {
 }
 
 class _AddUserState extends State<AddUser> {
+  bool showPassword = false;
   final formkey = GlobalKey<FormState>();
 
   TextEditingController name = TextEditingController();
@@ -77,7 +78,7 @@ class _AddUserState extends State<AddUser> {
                   controller: name,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: ("User Name , Ex Aman Mahale"),
+                    labelText: ("User Name "),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -114,20 +115,34 @@ class _AddUserState extends State<AddUser> {
                 ),
                 TextFormField(
                   // keyboardType: TextInputType.phone,
+                  obscureText: !showPassword,
                   controller: password,
                   decoration: const InputDecoration(
+                    errorMaxLines: 3,
                     border: OutlineInputBorder(),
                     labelText: ("Enter the password"),
                   ),
                   validator: (value) {
-                    RegExp regex = RegExp(r'^.{6,}$');
+                    // RegExp regex = RegExp(r'^.{6,}$');
+                    RegExp regex = RegExp(
+                        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$");
                     if (value!.isEmpty) {
                       return ('Password is Required');
                     }
                     if (!regex.hasMatch(value)) {
-                      return ('Enter Valid Password(Min. 6 Characters)');
+                      return ('Min. 6 Characters and Max 10 characters with Upper,Lowercase ,Number &  Special Characters');
                     }
                   },
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showPassword = !showPassword;
+                        });
+                      },
+                      child: Text('Hide/Show Password')),
                 ),
                 const SizedBox(
                   height: 15,

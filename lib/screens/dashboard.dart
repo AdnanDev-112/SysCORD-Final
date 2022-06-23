@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sysbin/modules/admin/Manage_Users/managerhome.dart';
 import 'package:sysbin/providers/userroleprov.dart';
+import 'package:sysbin/screens/userBoard.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -39,6 +40,35 @@ class _DashBoardState extends State<DashBoard> {
                     ),
                     Text(
                       'USERS',
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UserBoard(
+                              isFromAdmin: true,
+                            )));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.person,
+                      size: 70,
+                    ),
+                    Text(
+                      'PROFILE',
                       style: TextStyle(fontSize: 20),
                     )
                   ],
